@@ -6,5 +6,9 @@ export const metadata = {
 };
 
 export default function myreservation() {
-  return <EditMenuForm />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditMenuForm />
+    </Suspense>
+  );
 }
