@@ -9,7 +9,7 @@ const CardProduct = ({ selectedCategory, searchQuery }) => {
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/menu");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu`);
         setMenus(response.data);
       } catch (error) {
         console.error("Gagal fetch menu:", error);

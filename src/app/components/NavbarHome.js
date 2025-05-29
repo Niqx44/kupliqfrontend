@@ -24,7 +24,7 @@ const NavbarHome = () => {
 
         if (userId) {
           try {
-            const res = await fetch(`http://localhost:8080/costumer/${userId}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/costumer/${userId}`);
             if (!res.ok) throw new Error("Gagal mengambil customer");
 
             const data = await res.json();

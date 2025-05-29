@@ -16,7 +16,7 @@ const AdminReservationPage = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const res = await fetch("http://localhost:8080/reservasi");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/reservasi`);
         if (!res.ok) throw new Error("Gagal mengambil data reservasi");
 
         const data = await res.json();

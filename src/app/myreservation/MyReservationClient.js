@@ -15,7 +15,7 @@ const MyReservationPage = () => {
 
   useEffect(() => {
     if (userId) {
-      fetch(`http://localhost:8080/reservasi/${userId}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/reservasi/${userId}`)
         .then(res => res.json())
         .then(data => setReservations(data))
         .catch(err => console.error("Failed to fetch reservations:", err));

@@ -20,7 +20,7 @@ export default function MyOrderPage() {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/pemesanan/${userId}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pemesanan/${userId}`);
         const data = await res.json();
         setOrders(data);
       } catch (error) {

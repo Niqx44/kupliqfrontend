@@ -17,7 +17,7 @@ export default function EditMenuForm() {
 
   useEffect(() => {
   if (id) {
-    fetch(`http://localhost:8080/menu/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu/${id}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch menu with id ${id}`);
@@ -58,7 +58,7 @@ export default function EditMenuForm() {
     };
 
     try {
-      const res = await fetch(`http://localhost:8080/menu/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

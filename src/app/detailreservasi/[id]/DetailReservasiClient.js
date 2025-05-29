@@ -15,7 +15,7 @@ export default function ReservationDetailPage() {
   useEffect(() => {
     const fetchReservation = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/reservasi/by/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/reservasi/by/${id}`);
         if (!res.ok) throw new Error("Gagal mengambil data reservasi");
 
         const data = await res.json();
@@ -42,7 +42,7 @@ export default function ReservationDetailPage() {
   const handleStatusChange = async (newStatus) => {
     setUpdating(true);
     try {
-      const res = await fetch(`http://localhost:8080/reservasi/${id}/status`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/reservasi/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),

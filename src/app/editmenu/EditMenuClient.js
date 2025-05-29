@@ -14,7 +14,7 @@ export default function EditMenuClient() {
   useEffect(() => {
     const fetchMenus = async () => {
       try {
-        const res = await fetch("http://localhost:8080/menu");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu`);
         if (!res.ok) throw new Error("Failed to fetch menu data");
         const data = await res.json();
 
@@ -58,7 +58,7 @@ export default function EditMenuClient() {
   const handleDelete = async () => {
     for (const id of selectedItems) {
       try {
-        const res = await fetch(`http://localhost:8080/menu/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu/${id}`, {
           method: "DELETE",
         });
         if (!res.ok) throw new Error("Failed to delete menu");

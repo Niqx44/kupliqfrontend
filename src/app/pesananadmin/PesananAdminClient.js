@@ -9,7 +9,7 @@ export default function DaftarPesananPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("http://localhost:8080/pemesanan/all"); // endpoint semua pesanan
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pemesanan/all`); // endpoint semua pesanan
         if (!res.ok) throw new Error("Gagal memuat pesanan");
         const data = await res.json();
         setOrders(data);
@@ -23,7 +23,7 @@ export default function DaftarPesananPage() {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:8080/pemesanan/status/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pemesanan/status/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
