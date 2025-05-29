@@ -1,4 +1,5 @@
 import EditMenuForm from "./EditItemClient";
+import { Suspense } from 'react';
 
 export const metadata = {
   title: "Edit Item - Kupliq Cafe",
