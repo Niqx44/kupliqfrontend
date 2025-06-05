@@ -111,10 +111,11 @@ export default function MyOrderPage() {
               </div>
 
               {/* Footer */}
-              <div className="mt-4 text-sm flex justify-between items-center">
-                <p>Metode Bayar | (tidak tersedia)</p>
-                <p className="italic">Status: {order.status}</p>
-              </div>
+                <div className="mt-4 text-sm flex justify-between items-center">
+                  <p>Metode Bayar | {order.metode_pembayaran || "Tidak tersedia"}</p>
+                  <p className="italic">Status: {order.status}</p>
+                </div>
+
             </div>
           ))}
         </div>

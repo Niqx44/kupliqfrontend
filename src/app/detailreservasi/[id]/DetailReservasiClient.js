@@ -89,7 +89,7 @@ export default function ReservationDetailPage() {
             <InputWithIcon icon={<FaPhone />} value={reservation.keterangan} />
           </div>
 
-          {status === "unconfirmed" && !updating ? (
+          {status === "Pending" && !updating ? (
             <div className="flex justify-end items-center gap-3 mt-6 min-h-[56px]">
               <button
                 onClick={() => handleStatusChange("Rejected")}

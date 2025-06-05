@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 const NavbarHome = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [customerName, setCustomerName] = useState("");
+  const [profileImage, setProfileImage] = useState(""); // Tambah state untuk foto profil
   const router = useRouter();
 
   useEffect(() => {
@@ -18,17 +19,18 @@ const NavbarHome = () => {
   }, []);
 
   useEffect(() => {
-    const fetchCustomerName = async () => {
+    const fetchCustomerData = async () => {
       if (typeof window !== "undefined") {
         const userId = localStorage.getItem("user_id");
 
         if (userId) {
           try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/costumer/${userId}`);
-            if (!res.ok) throw new Error("Gagal mengambil customer");
+            if (!res.ok) throw new Error("Gagal mengambil data customer");
 
             const data = await res.json();
-            setCustomerName(data.nama_costumer);
+            setCustomerName(data.nama_costumer || "");
+            setProfileImage(data.foto_profile || ""); // Simpan foto profil
           } catch (error) {
             console.error("Error fetching customer data:", error);
           }
@@ -36,7 +38,7 @@ const NavbarHome = () => {
       }
     };
 
-    fetchCustomerName();
+    fetchCustomerData();
   }, []);
 
   const handleSignOut = () => {
@@ -59,6 +61,7 @@ const NavbarHome = () => {
         >
           Kupliq Cafe
         </Link>
+
         <ul className="flex space-x-14 text-white" style={{ fontFamily: "Fairplay Display" }}>
           <li>
             <Link href="/" className="hover:text-gray-300 transition-colors duration-300">
@@ -86,7 +89,7 @@ const NavbarHome = () => {
               {customerName || "Loading..."}
             </span>
             <img
-              src="/images/img_rectangle_9.png"
+              src={profileImage || "/images/default-profile.png"} // Fallback ke default
               alt="Profile"
               className="w-10 h-10 rounded-full object-cover border border-white group-hover:border-gray-300 transition-all duration-300"
             />

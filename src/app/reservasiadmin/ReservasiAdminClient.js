@@ -26,7 +26,8 @@ const AdminReservationPage = () => {
           name: `Customer ${r.id_costumer}`, // atau ambil nama dari relasi jika tersedia
           date: r.tanggal_reservasi,
           time: r.waktu_reservasi,
-          status: r.keterangan || "Unconfirmed",
+          keterangan: r.keterangan || "Unconfirmed",
+          status: r.status || "Pending",
         }));
         setReservations(processed);
       } catch (error) {

@@ -16,6 +16,8 @@ export default function SignUpPage() {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,14 +25,14 @@ export default function SignUpPage() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setErrorMsg("");
 
     const newErrors = {};
     Object.entries(formData).forEach(([key, value]) => {
-      if (!value.trim()) {
-        newErrors[key] = "Please fill out this field.";
-      }
+      if (!value.trim()) newErrors[key] = "Please fill out this field.";
     });
 
     if (formData.password !== formData.confirmPassword) {
@@ -39,11 +41,39 @@ export default function SignUpPage() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setLoading(false);
       return;
     }
 
-    // Submit logic goes here (e.g., API call)
-    router.push("/signin");
+    const customerData = {
+      nama_costumer: formData.name,
+      password: formData.password,
+      email: formData.email,
+      notelp_costumer: formData.phone,
+    };
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/costumer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(customerData),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to register");
+      }
+
+      alert("Pendaftaran berhasil!");
+      router.push("/signin");
+    } catch (error) {
+      console.error("Signup error:", error);
+      setErrorMsg("Gagal mendaftar: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -70,10 +100,7 @@ export default function SignUpPage() {
       {/* Main */}
       <div className="flex flex-1 justify-center items-center">
         <div className="w-2/5 max-w-md px-6">
-          <h1
-            className="text-4xl font-extrabold text-[#5C3A2E] mb-2"
-            style={{ fontFamily: "Abhaya Libre" }}
-          >
+          <h1 className="text-4xl font-extrabold text-[#5C3A2E] mb-2" style={{ fontFamily: "Abhaya Libre" }}>
             Create Your Kupliq Cafe Account
           </h1>
           <p className="text-sm text-gray-500 mb-6">
@@ -81,12 +108,18 @@ export default function SignUpPage() {
             your details to get started!
           </p>
 
-          <form className="space-y-3" onSubmit={handleSubmit}>
-            {["name", "email", "phone", "password", "confirmPassword"].map((field) => (
+        <form className="space-y-3" onSubmit={handleSubmit}>
+          {["name", "email", "phone", "password", "confirmPassword"].map((field) => {
+            let type = "text";
+            if (field === "email") type = "email";
+            else if (field === "phone") type = "tel";
+            else if (field === "password" || field === "confirmPassword") type = "password";
+
+            return (
               <div key={field}>
                 <input
                   name={field}
-                  type={field.includes("password") ? "password" : field === "email" ? "email" : field === "phone" ? "tel" : "text"}
+                  type={type}
                   placeholder={
                     field === "confirmPassword"
                       ? "Confirm Password"
@@ -104,19 +137,26 @@ export default function SignUpPage() {
                   <p className="text-red-600 text-sm mt-1">{errors[field]}</p>
                 )}
               </div>
-            ))}
+            );
+          })}
 
-            <button
-              type="submit"
-              className="w-full bg-[#5C3A2E] text-white py-2 rounded-md text-sm hover:bg-[#4a2f25] transition-colors"
-            >
-              Sign Up
-            </button>
-          </form>
+          {errorMsg && <p className="text-red-600 text-sm">{errorMsg}</p>}
 
-          <div className="text-center text-sm text-gray-500 mt-4">
-            or continue with
-          </div>
+          <button
+            type="submit"
+            className={`w-full py-2 rounded-md text-sm ${
+              loading
+                ? "bg-gray-300 text-gray-600 cursor-wait"
+                : "bg-[#5C3A2E] text-white hover:bg-[#4a2f25] transition-colors"
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Mendaftarkan..." : "Sign Up"}
+          </button>
+        </form>
+
+
+          <div className="text-center text-sm text-gray-500 mt-4">or continue with</div>
           <div className="flex justify-center space-x-4 mt-2">
             <button>
               <img src="/images/fb.png" alt="Facebook" className="w-5 h-5" />
