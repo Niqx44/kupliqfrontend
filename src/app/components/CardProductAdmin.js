@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -19,15 +19,13 @@ const CardProductAdmin = ({ selectedCategory, searchQuery }) => {
     fetchMenus();
   }, []);
 
-  // Filtering berdasarkan kategori dan pencarian
   const filteredMenus = menus.filter((menu) => {
     const matchCategory =
       selectedCategory === "All" || menu.kategori === selectedCategory;
 
-    const matchSearch =
-      menu.nama_menu
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
+    const matchSearch = menu.nama_menu
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
 
     return matchCategory && matchSearch;
   });
@@ -42,16 +40,16 @@ const CardProductAdmin = ({ selectedCategory, searchQuery }) => {
           >
             <div className="flex justify-center items-center">
               <img
-                src="/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"
+                src={menu.foto_menu || "/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"}
                 alt={menu.nama_menu}
-                className="w-48 h-48 mt-6"
+                className="w-48 h-48 mt-6 object-cover rounded"
               />
             </div>
             <div className="mt-2 pl-4">
-              <h2 className="text-xl font-semibold text-[#817c7a] mb-6">
+              <h2 className="text-xl font-semibold text-[#817c7a] mb-6 truncate">
                 {menu.nama_menu}
               </h2>
-              <div className="flex flex-wrap items-center justify-between mb-6">
+              <div className="flex flex-wrap items-center justify-between mb-6 pr-4">
                 <p className="text-lg font-normal text-[#775142]">
                   Rp {menu.harga_menu.toLocaleString("id-ID")}
                 </p>

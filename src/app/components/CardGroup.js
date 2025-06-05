@@ -39,8 +39,8 @@ const CardGroup = () => {
         <div className="flex flex-wrap gap-10 justify-center">
           {menus.map((menu) => (
             <div key={menu.id_menu} className="border-1 border-color rounded-md p-2 max-w-[250px] shadow-lg">
-              <Image
-                src="/images/img_rectangle_7.png" // Replace with dynamic image path if available
+              <img
+                src={menu.foto_menu || "/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"} // Replace with dynamic image path if available
                 alt={menu.nama_menu}
                 width={250}
                 height={250}

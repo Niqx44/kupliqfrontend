@@ -10,51 +10,93 @@ export default function EditMenuForm() {
   const id = searchParams.get("id");
 
   const [imagePreview, setImagePreview] = useState("/images/latte.png");
+  const [selectedFile, setSelectedFile] = useState(null);
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [fotoMenu, setFotoMenu] = useState("");
 
   useEffect(() => {
-  if (id) {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu/${id}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch menu with id ${id}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setProductName(data.nama_menu);
-        setPrice(data.harga_menu);
-        setCategory(data.kategori);
-        setDescription(data.deskripsi);
-      })
-      .catch((err) => {
-        console.error("Error loading menu:", err);
-        alert("Gagal memuat data menu. Coba periksa ID atau koneksi backend.");
-      });
-  }
-}, [id]);
-
+    if (id) {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu/${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`Failed to fetch menu with id ${id}`);
+          return res.json();
+        })
+        .then((data) => {
+          setProductName(data.nama_menu);
+          setPrice(data.harga_menu);
+          setCategory(data.kategori);
+          setDescription(data.deskripsi);
+          setFotoMenu(data.foto_menu);
+          setImagePreview(data.foto_menu || "/images/latte.png");
+        })
+        .catch((err) => {
+          console.error("Error loading menu:", err);
+          alert("Gagal memuat data menu.");
+        });
+    }
+  }, [id]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
+      setSelectedFile(file);
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let uploadedImageUrl = fotoMenu;
+
+    // Upload gambar jika dipilih gambar baru
+    if (selectedFile) {
+      const formDataImage = new FormData();
+      formDataImage.append("id_menu", id);
+      formDataImage.append("foto", selectedFile);
+
+      try {
+        const resUpload = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upload-foto-menu`, {
+          method: "POST",
+          body: formDataImage,
+        });
+
+        if (!resUpload.ok) throw new Error("Upload gambar gagal");
+
+        const contentType = resUpload.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const result = await resUpload.json();
+          if (result?.url) {
+            uploadedImageUrl = result.url;
+          } else {
+            throw new Error("Format JSON tidak sesuai: " + JSON.stringify(result));
+          }
+        } else {
+          const text = await resUpload.text();
+          const match = text.match(/https?:\/\/[^\s]+/);
+          if (match) {
+            uploadedImageUrl = match[0];
+          } else {
+            throw new Error("URL gambar tidak ditemukan dalam respons: " + text);
+          }
+        }
+      } catch (error) {
+        console.error("Upload error:", error);
+        alert("Gagal upload gambar.");
+        return;
+      }
+    }
+
     const body = {
       nama_menu: productName,
       harga_menu: price,
       kategori: category,
       deskripsi: description,
+      foto_menu: uploadedImageUrl,
     };
 
     try {
@@ -64,12 +106,12 @@ export default function EditMenuForm() {
         body: JSON.stringify(body),
       });
 
-      if (!res.ok) throw new Error("Failed to update menu");
+      if (!res.ok) throw new Error("Gagal update menu");
       alert("Menu berhasil diperbarui!");
       router.push("/editmenu");
     } catch (error) {
-      console.error("Gagal menyimpan perubahan:", error);
-      alert("Gagal menyimpan menu");
+      console.error("Gagal update menu:", error);
+      alert("Terjadi kesalahan saat menyimpan menu.");
     }
   };
 

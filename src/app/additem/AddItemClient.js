@@ -7,7 +7,8 @@ import NavbarAddItem from "../components/NavbarAdd";
 export default function AddMenuForm() {
   const router = useRouter();
 
-  const [imagePreview, setImagePreview] = useState("/images/latte.png"); // Gambar default
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("/images/latte.png");
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
@@ -18,6 +19,7 @@ export default function AddMenuForm() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -28,7 +30,6 @@ export default function AddMenuForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     setErrorMsg("");
 
@@ -40,6 +41,7 @@ export default function AddMenuForm() {
     };
 
     try {
+      // Step 1: Simpan data menu ke backend
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/menu`, {
         method: "POST",
         headers: {
@@ -53,11 +55,38 @@ export default function AddMenuForm() {
         throw new Error(errText || "Gagal menyimpan menu");
       }
 
+      const savedMenu = await response.json();
+      const id_menu = savedMenu.id_menu;
+
+      if (!id_menu) {
+        throw new Error("Gagal mendapatkan id_menu dari server");
+      }
+
+      // Step 2: Upload foto jika ada
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("id_menu", id_menu); // pastikan id_menu sesuai dengan backend
+        formData.append("foto", imageFile); // field ini harus "foto" sesuai backend
+
+        const uploadRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/upload-foto-menu`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!uploadRes.ok) {
+          const errUpload = await uploadRes.text();
+          throw new Error("Menu disimpan, tapi gagal upload gambar: " + errUpload);
+        }
+      }
+
       alert("Menu berhasil ditambahkan!");
-      router.push("/editmenu"); // kembali ke halaman edit menu
+      router.push("/editmenu");
     } catch (error) {
-      console.error("Gagal menyimpan menu:", error);
-      setErrorMsg("Gagal menyimpan menu: " + error.message);
+      console.error("Error:", error);
+      setErrorMsg(error.message || "Terjadi kesalahan saat menambahkan menu.");
     } finally {
       setLoading(false);
     }

@@ -56,7 +56,7 @@ const CardProduct = ({ selectedCategory, searchQuery }) => {
           >
             <div className="flex justify-center items-center">
               <img
-                src="/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"
+                src={menu.foto_menu || "/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"}
                 alt={menu.nama_menu}
                 className="w-48 h-48 mt-6"
               />

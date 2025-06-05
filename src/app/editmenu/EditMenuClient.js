@@ -20,7 +20,9 @@ export default function EditMenuClient() {
 
         const menusWithImage = data.map((menu) => ({
           ...menu,
-          image: "/images/img_rectangle_9.png",
+          image: menu.foto_menu
+            ? menu.foto_menu // langsung pakai URL dari backend
+            : "/images/img_rectangle_9.png", // fallback kalau kosong
         }));
 
         setMenus(menusWithImage);
@@ -31,6 +33,7 @@ export default function EditMenuClient() {
 
     fetchMenus();
   }, []);
+
 
   const filteredData = useMemo(() => {
     let data = [...menus];
