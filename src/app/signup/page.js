@@ -90,7 +90,7 @@ export default function SignUpPage() {
         </Link>
         <div className="space-x-8 pr-10">
           <Link href="/signin">
-            <button className="w-24 h-12 bg-[#5C3A2E] text-white rounded-full text-sm hover:bg-[#4a2f25] transition-colors">
+            <button className="p-2 px-5 bg-white rounded-lg border-2 border-[#775142] hover:bg-[#775142] text-[#775142] hover:text-white transition">
               Sign In
             </button>
           </Link>
@@ -144,7 +144,7 @@ export default function SignUpPage() {
 
           <button
             type="submit"
-            className={`w-full py-2 rounded-md text-sm ${
+            className={`w-full py-2 rounded-md text-sm mt-2 ${
               loading
                 ? "bg-gray-300 text-gray-600 cursor-wait"
                 : "bg-[#5C3A2E] text-white hover:bg-[#4a2f25] transition-colors"
@@ -155,23 +155,13 @@ export default function SignUpPage() {
           </button>
         </form>
 
-
-          <div className="text-center text-sm text-gray-500 mt-4">or continue with</div>
-          <div className="flex justify-center space-x-4 mt-2">
-            <button>
-              <img src="/images/fb.png" alt="Facebook" className="w-5 h-5" />
-            </button>
-            <button>
-              <img src="/images/google.png" alt="Google" className="w-5 h-5" />
-            </button>
-          </div>
         </div>
 
         <div className="w-1/4 hidden md:block">
           <img
             src="/images/Slider.png"
             alt="Cafe"
-            className="w-full h-auto object-cover rounded-l-2xl shadow-md"
+            className="w-full h-auto object-cover rounded-2xl shadow-md"
           />
         </div>
       </div>

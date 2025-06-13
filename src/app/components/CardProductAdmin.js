@@ -46,7 +46,7 @@ const CardProductAdmin = ({ selectedCategory, searchQuery }) => {
               />
             </div>
             <div className="mt-2 pl-4">
-              <h2 className="text-xl font-semibold text-[#817c7a] mb-6 truncate">
+              <h2 className="text-xl font-semibold text-[#775142] mb-6 truncate">
                 {menu.nama_menu}
               </h2>
               <div className="flex flex-wrap items-center justify-between mb-6 pr-4">

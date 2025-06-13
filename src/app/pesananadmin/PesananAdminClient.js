@@ -9,10 +9,16 @@ export default function DaftarPesananPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pemesanan/all`); // endpoint semua pesanan
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/pemesanan/all`);
         if (!res.ok) throw new Error("Gagal memuat pesanan");
         const data = await res.json();
-        setOrders(data);
+
+        // Sort by newest date first (descending)
+        const sorted = data.sort(
+          (a, b) => new Date(b.tanggal_pemesanan) - new Date(a.tanggal_pemesanan)
+        );
+
+        setOrders(sorted);
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -33,7 +39,6 @@ export default function DaftarPesananPage() {
 
       if (!res.ok) throw new Error("Gagal update status");
 
-      // update status di frontend
       const updated = orders.map((order) =>
         order.id_pemesanan === id ? { ...order, status: newStatus } : order
       );
@@ -53,14 +58,19 @@ export default function DaftarPesananPage() {
             (sum, item) => sum + item.sub_total,
             0
           );
+
           return (
             <div
               key={order.id_pemesanan}
               className="border rounded-lg p-4 shadow-sm border-[#5C4033]"
             >
               <div className="flex justify-between mb-2">
-                <span className="font-semibold text-[#5C4033]">Meja {order.id_meja}</span>
-                <span className="text-[#5C4033]">{order.tanggal_pemesanan}</span>
+                <span className="font-semibold text-[#5C4033]">
+                  Meja {order.id_meja}
+                </span>
+                <span className="text-[#5C4033]">
+                  {order.tanggal_pemesanan}
+                </span>
               </div>
 
               <div className="space-y-1">

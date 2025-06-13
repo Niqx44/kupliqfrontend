@@ -36,12 +36,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/menu" className="hover:text-gray-300 transition-colors duration-300">
+            <Link href="/signin" className="hover:text-gray-300 transition-colors duration-300">
               Menu
             </Link>
           </li>
           <li>
-            <Link href="/reservation" className="hover:text-gray-300 transition-colors duration-300">
+            <Link href="/signin" className="hover:text-gray-300 transition-colors duration-300">
               Reservation
             </Link>
           </li>

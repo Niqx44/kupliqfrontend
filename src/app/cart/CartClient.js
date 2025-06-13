@@ -34,7 +34,7 @@ const CartItem = ({
 
       <button
         onClick={() => onRemove(id)}
-        className="text-black hover:text-red-700 ml-4"
+        className="text-black hover:text-[#775142] ml-4"
       >
         <Trash2 size={20} />
       </button>

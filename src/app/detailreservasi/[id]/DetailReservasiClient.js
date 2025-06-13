@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaCalendarAlt, FaClock, FaUser, FaPhone } from 'react-icons/fa';
+import { FaNoteSticky } from "react-icons/fa6";
 import NavbarDetailNav from '../../components/NavbarDetailRev';
 
 export default function ReservationDetailPage() {
@@ -10,7 +11,7 @@ export default function ReservationDetailPage() {
   const [reservation, setReservation] = useState(null);
   const [status, setStatus] = useState("Unconfirmed");
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false); // tambahan
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     const fetchReservation = async () => {
@@ -21,7 +22,8 @@ export default function ReservationDetailPage() {
         const data = await res.json();
         setReservation({
           id: data.id_reservasi,
-          name: `Customer ${data.id_costumer}`,
+          name: `${data.nama_costumer}`,
+          phone: data.notelp_costumer, 
           date: data.tanggal_reservasi,
           time: data.waktu_reservasi,
           keterangan: data.keterangan,
@@ -50,7 +52,6 @@ export default function ReservationDetailPage() {
 
       if (!res.ok) throw new Error("Gagal memperbarui status");
 
-      // Update status di UI setelah berhasil
       setStatus(newStatus);
     } catch (error) {
       console.error(error);
@@ -86,7 +87,8 @@ export default function ReservationDetailPage() {
             <InputWithIcon icon={<FaCalendarAlt />} value={reservation.date} />
             <InputWithIcon icon={<FaClock />} value={reservation.time} />
             <InputWithIcon icon={<FaUser />} value={reservation.name} />
-            <InputWithIcon icon={<FaPhone />} value={reservation.keterangan} />
+            <InputWithIcon icon={<FaPhone />} value={reservation.phone} /> {/* No Telp */}
+            <InputWithIcon icon={<FaNoteSticky />} value={reservation.keterangan} />
           </div>
 
           {status === "Pending" && !updating ? (

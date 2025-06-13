@@ -47,7 +47,7 @@ const MyReservationPage = () => {
       {paginatedData.map((res, idx) => (
         <ReservationCard
           key={idx}
-          name={`Customer #${res.user}`}
+          name={res.nama_costumer}
           date={res.tanggal_reservasi}
           time={res.waktu_reservasi}
           keterangan={res.keterangan}

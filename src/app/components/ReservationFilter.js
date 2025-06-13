@@ -30,6 +30,7 @@ const ReservationFilter = ({ onFilterChange }) => (
     >
       <option value="">All Status</option>
       <option value="Confirmed">Confirmed</option>
+      <option value="Rejected">Rejected</option>
       <option value="Unconfirmed">Unconfirmed</option>
     </select>
   </div>

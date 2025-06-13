@@ -62,7 +62,7 @@ export default function SignInPage() {
         </Link>
         <div className="space-x-8 pr-10">
           <Link href="/signup">
-            <button className="w-24 h-12 bg-[#5C3A2E] text-white rounded-full text-sm hover:bg-[#4a2f25] transition-colors">
+            <button className="p-2 px-5 bg-white rounded-lg border-2 border-[#775142] hover:bg-[#775142] text-[#775142] hover:text-white transition">
               Sign Up
             </button>
           </Link>
@@ -113,25 +113,13 @@ export default function SignInPage() {
               Sign Up
             </Link>
           </p>
-
-          <div className="text-center text-sm text-gray-500 mt-4">
-            or continue with
-          </div>
-          <div className="flex justify-center space-x-4 mt-2">
-            <button>
-              <img src="/images/fb.png" alt="Facebook" className="w-5 h-5" />
-            </button>
-            <button>
-              <img src="/images/google.png" alt="Google" className="w-5 h-5" />
-            </button>
-          </div>
         </div>
 
         <div className="w-1/4 hidden md:block">
           <img
             src="/images/Slider.png"
             alt="Cafe"
-            className="w-full h-auto object-cover rounded-l-2xl shadow-md"
+            className="w-full h-auto object-cover rounded-2xl shadow-md"
           />
         </div>
       </div>

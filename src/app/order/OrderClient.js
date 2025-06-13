@@ -34,8 +34,9 @@ export default function MyOrderPage() {
   // FILTER LOGIC
   const filteredOrders = orders
     .filter((order) => {
-      if (filter === 'Pending') return order.status === 'Pending';
+      if (filter === 'Pending') return order.status === 'pending';
       if (filter === 'Selesai') return order.status === 'Selesai';
+      if (filter === 'Dibatalkan') return order.status === 'Dibatalkan';
       return true; // Newest shows all
     })
     .sort((a, b) => {
@@ -58,11 +59,12 @@ export default function MyOrderPage() {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="border border-[#6B4226] text-[#6B4226] px-4 py-2 rounded-full focus:outline-none"
+              className="border px-3 py-2 rounded border-[#6B4226] text-[#6B4226] focus:outline-none"
             >
               <option value="Newest">Newest</option>
               <option value="Pending">Pending</option>
               <option value="Selesai">Selesai</option>
+              <option value="Dibatalkan">Batal</option>
             </select>
           </div>
 
