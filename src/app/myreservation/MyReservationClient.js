@@ -27,13 +27,19 @@ const MyReservationPage = () => {
     setCurrentPage(1);
   };
 
-  const filteredData = reservations.filter(r =>
-    (!filters.name || r.name?.toLowerCase().includes(filters.name.toLowerCase())) &&
-    (!filters.date || r.tanggal_reservasi === filters.date) &&
-    (!filters.time || r.waktu_reservasi === filters.time) &&
-    (!filters.keterangan || r.keterangan?.toLowerCase().includes(filters.keterangan.toLowerCase())) &&
-    (!filters.status || r.status === filters.status)
-  );
+  const filteredData = reservations.filter(r => {
+  const matchNameOrKeterangan =
+    !filters.name ||
+    r.nama_costumer?.toLowerCase().includes(filters.name.toLowerCase()) ||
+    r.keterangan?.toLowerCase().includes(filters.name.toLowerCase());
+
+  const matchDate = !filters.date || r.tanggal_reservasi === filters.date;
+  const matchTime = !filters.time || r.waktu_reservasi === filters.time;
+  const matchKeterangan = !filters.keterangan || r.keterangan?.toLowerCase().includes(filters.keterangan.toLowerCase());
+  const matchStatus = !filters.status || r.status?.toLowerCase() === filters.status.toLowerCase();
+
+  return matchNameOrKeterangan && matchDate && matchTime && matchKeterangan && matchStatus;
+});
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -55,27 +61,31 @@ const MyReservationPage = () => {
         />
       ))}
 
-      <div className="fixed bottom-4 left-0 w-full flex justify-center z-50">
-        <div className="flex justify-center items-center gap-3 text-[#5C4033] font-medium text-base bg-[#FDFDFD] px-4 py-2 rounded-md shadow-md">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-            disabled={currentPage === 1}
-            className="px-2 disabled:opacity-30"
-          >
-            {'<'}
-          </button>
+      {filteredData.length > 0 && (
+  <div className="mt-6 mb-10 w-full flex justify-center">
+    <div className="flex justify-center items-center gap-3 text-[#5C4033] font-medium text-base">
+      <button
+        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+        disabled={currentPage === 1}
+        className="px-2 disabled:opacity-30"
+      >
+        {'<'}
+      </button>
 
-          <span>{currentPage}</span>
+      <span>{currentPage}</span>
 
-          <button
-            onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            className="px-2 disabled:opacity-30"
-          >
-            {'>'}
-          </button>
-        </div>
-      </div>
+      <button
+        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+        disabled={currentPage === totalPages}
+        className="px-2 disabled:opacity-30"
+      >
+        {'>'}
+      </button>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };

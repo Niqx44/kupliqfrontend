@@ -29,9 +29,9 @@ const ReservationFilter = ({ onFilterChange }) => (
       onChange={e => onFilterChange('status', e.target.value)}
     >
       <option value="">All Status</option>
-      <option value="Confirmed">Confirmed</option>
+      <option value="Pending">Pending</option>
       <option value="Rejected">Rejected</option>
-      <option value="Unconfirmed">Unconfirmed</option>
+      <option value="Confirmed">Confirmed</option>
     </select>
   </div>
 );
