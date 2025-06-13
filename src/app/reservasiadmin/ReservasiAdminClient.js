@@ -72,7 +72,8 @@ const AdminReservationPage = () => {
   const filteredData = reservations.filter(
     (r) =>
       (!filters.name ||
-        r.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+        r.name?.toLowerCase().includes(filters.name.toLowerCase()) ||
+        r.keterangan?.toLowerCase().includes(filters.name.toLowerCase())) &&
       (!filters.date || r.date === filters.date) &&
       (!filters.time || r.time === filters.time) &&
       (!filters.status || r.status === filters.status)
