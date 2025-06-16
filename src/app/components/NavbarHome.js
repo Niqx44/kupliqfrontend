@@ -64,7 +64,7 @@ const NavbarHome = () => {
 
         <ul className="flex space-x-14 text-white" style={{ fontFamily: "Fairplay Display" }}>
           <li>
-            <Link href="/" className="hover:text-gray-300 transition-colors duration-300">
+            <Link href="/home" className="hover:text-gray-300 transition-colors duration-300">
               Home
             </Link>
           </li>
