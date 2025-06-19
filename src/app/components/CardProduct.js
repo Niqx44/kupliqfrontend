@@ -51,20 +51,20 @@ const CardProduct = ({ selectedCategory, searchQuery }) => {
         {filteredMenus.map((menu) => (
           <div
             key={menu.id_menu}
-            className="w-full max-w-[280px] h-[340px] sm:h-[360px] p-4 border rounded-xl shadow-md hover:shadow-lg transition bg-[#F4F4F4] flex flex-col justify-between mx-auto"
+            className="w-full max-w-[280px] p-4 border rounded-xl shadow-md hover:shadow-lg transition bg-[#F4F4F4] flex flex-col mx-auto"
           >
             <div className="flex justify-center items-center">
               <img
-                src={menu.foto_menu || "/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"}
+                src={menu.foto_menu || "/images/kupliq2.png"}
                 alt={menu.nama_menu}
-                className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] md:w-[180px] md:h-[180px] mt-4 sm:mt-6 object-cover"
+                className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] md:w-[180px] md:h-[180px] mt-2 sm:mt-3 object-cover"
               />
             </div>
-            <div className="mt-2 pl-2 sm:pl-4">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#775142] mb-4 sm:mb-6">
+            <div className="mt-1 sm:mt-2 pl-2 sm:pl-4 flex flex-col">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#775142] mb-2 sm:mb-3">
                 {menu.nama_menu}
               </h2>
-              <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <div className="flex items-center justify-between">
                 <p className="text-base sm:text-lg font-normal text-[#775142]">
                   Rp {menu.harga_menu.toLocaleString("id-ID")}
                 </p>

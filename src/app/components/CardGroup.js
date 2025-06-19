@@ -21,7 +21,7 @@ const CardGroup = () => {
   }, []);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
+    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-5">
       <div className="text-center">
         <h3
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#603809]"
@@ -29,7 +29,8 @@ const CardGroup = () => {
         >
           Enjoy a new blend of coffee style
         </h3>
-        <h5 className="text-sm sm:text-base md:text-lg font-medium text-[#707070] mt-3 sm:mt-5">
+        <h5 className="text-sm sm:text-base md:text-2xl font-semibold text-[#707070] mt-3 sm:mt-5"
+        style={{ fontFamily: "Abhaya Libre" }}>
           Explore all flavours of coffee with us. There is always a new cup worth experiencing
         </h5>
       </div>
