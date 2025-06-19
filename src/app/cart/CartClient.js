@@ -118,7 +118,6 @@ export default function CartClient() {
             .reduce((total, item) => total + item.price * item.quantity, 0)
             .toLocaleString("id-ID")}
         </div>
-
         <button
           onClick={handleOrder}
           className={`w-full sm:w-auto p-2 px-6 sm:px-8 bg-white rounded-lg border-2 border-[#775142] hover:bg-[#775142] text-[#775142] hover:text-white transition text-sm sm:text-base text-center ${

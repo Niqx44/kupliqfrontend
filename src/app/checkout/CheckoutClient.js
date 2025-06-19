@@ -11,6 +11,7 @@ export default function CheckoutPage() {
   const [cartItems, setCartItems] = useState([]);
   const [tableNumber, setTableNumber] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [notification, setNotification] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,12 +27,13 @@ export default function CheckoutPage() {
 
   const handleOrderSubmit = async () => {
     if (!userId) {
-      alert("User tidak ditemukan. Silakan login kembali.");
+      setNotification({ message: "User tidak ditemukan. Silakan login kembali.", type: "error" });
+      setTimeout(() => setNotification(null), 3000);
       return;
     }
 
     const payload = {
-      id_customer: parseInt(userId), // ✅ ambil dari localStorage
+      id_customer: parseInt(userId),
       total_harga: subtotal,
       metode_pembayaran: paymentMethod,
       id_meja: parseInt(tableNumber),
@@ -50,21 +52,53 @@ export default function CheckoutPage() {
       });
 
       if (res.ok) {
-        alert("Pesanan berhasil dikirim!");
+        setNotification({ message: "Pesanan berhasil dikirim!", type: "success" });
         localStorage.removeItem("cart");
         localStorage.removeItem("tableNumber");
-        router.push("/success");
+        setTimeout(() => {
+          setNotification(null);
+          router.push("/success");
+        }, 2000);
       } else {
-        alert("Gagal memproses pesanan.");
+        setNotification({ message: "Gagal memproses pesanan.", type: "error" });
+        setTimeout(() => setNotification(null), 3000);
       }
     } catch (err) {
       console.error(err);
-      alert("Terjadi kesalahan.");
+      setNotification({ message: "Terjadi kesalahan.", type: "error" });
+      setTimeout(() => setNotification(null), 3000);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-screen flex flex-col bg-white">
+      {/* Notifikasi Custom */}
+      {notification && (
+        <div
+          className={`fixed top-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 animate-slide-in ${
+            notification.type === "success"
+              ? "bg-[#775142] text-white"
+              : "bg-red-500 text-white"
+          }`}
+        >
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d={notification.type === "success" ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"}
+            />
+          </svg>
+          <span>{notification.message}</span>
+        </div>
+      )}
+
       <NavbarCheckout />
 
       <div className="flex-1 px-6">
@@ -138,6 +172,23 @@ export default function CheckoutPage() {
       <div className="w-full">
         <Footer2 />
       </div>
+
+      {/* CSS untuk animasi notifikasi */}
+      <style jsx>{`
+        @keyframes slide-in {
+          0% {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
+        }
+      `}</style>
     </div>
   );
 }
