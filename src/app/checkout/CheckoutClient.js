@@ -67,7 +67,7 @@ export default function CheckoutPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <NavbarCheckout />
 
-      <div className="flex-1 pt-28 px-6">
+      <div className="flex-1 px-6">
         <div className="max-w-4xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-start justify-center">
           <div className="w-full md:w-auto flex flex-col items-center">
             <div className="flex gap-4 mb-6 mt-6 justify-start w-full max-w-md">
@@ -128,7 +128,7 @@ export default function CheckoutPage() {
 
           {paymentMethod === "ewallet" && (
             <div className="flex flex-col items-center border border-[#6B4226] rounded-md p-6 w-full max-w-xs mx-auto text-[#6B4226]">
-              <Image src="/qr.png" alt="QR Code" width={200} height={200} />
+              <Image src="/images/qr.png" alt="QR Code" width={300} height={300} />
               <p className="mt-4 font-medium text-center">Scan QR</p>
             </div>
           )}
