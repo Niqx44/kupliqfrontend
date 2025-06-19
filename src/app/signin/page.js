@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -31,12 +32,10 @@ export default function SignInPage() {
       const data = await response.json();
       console.log("Login response:", data);
 
-      // ✅ Simpan data login ke localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("id_role", data.id_role);
       localStorage.setItem("user_id", data.id);
 
-      // ✅ Redirect berdasarkan role
       if (data.id_role === 1) {
         router.push("/menuadmin");
       } else {
@@ -51,18 +50,18 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <header className="flex justify-between items-center px-8 py-8 shadow-sm">
+      <header className="flex justify-between items-center px-4 sm:px-6 md:px-8 py-4 sm:py-6 shadow-sm">
         <Link href="/">
           <div
-            className="text-3xl font-regular text-[#5C3A2E] cursor-pointer"
+            className="text-2xl sm:text-3xl md:text-4xl font-regular text-[#5C3A2E] cursor-pointer"
             style={{ fontFamily: "Cormorant Infant" }}
           >
             Kupliq Cafe
           </div>
         </Link>
-        <div className="space-x-8 pr-10">
+        <div className="space-x-4 sm:space-x-6 md:space-x-8 pr-4 sm:pr-6 md:pr-10">
           <Link href="/signup">
-            <button className="p-2 px-5 bg-white rounded-lg border-2 border-[#775142] hover:bg-[#775142] text-[#775142] hover:text-white transition">
+            <button className="p-2 px-4 sm:px-5 bg-white rounded-lg border-2 border-[#775142] hover:bg-[#775142] text-[#775142] hover:text-white transition text-sm sm:text-base">
               Sign Up
             </button>
           </Link>
@@ -70,44 +69,44 @@ export default function SignInPage() {
       </header>
 
       {/* Main */}
-      <div className="flex flex-1 justify-center items-center">
-        <div className="w-2/5 max-w-md px-6">
+      <div className="flex flex-1 flex-col md:flex-row justify-center items-center px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16 gap-6 md:gap-10">
+        <div className="w-full max-w-sm sm:max-w-md md:w-1/2 px-4 sm:px-6">
           <h1
-            className="text-4xl font-extrabold text-[#5C3A2E] mb-2"
+            className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#5C3A2E] mb-2"
             style={{ fontFamily: "Abhaya Libre" }}
           >
             Welcome Back to Kupliq Cafe
           </h1>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-xs sm:text-sm md:text-base text-gray-500 mb-4 sm:mb-6">
             Log in to access your account and discover the latest brews, and bites.
           </p>
 
-          {errorMsg && <p className="text-red-600 text-sm mb-2">{errorMsg}</p>}
+          {errorMsg && <p className="text-red-600 text-xs sm:text-sm mb-2">{errorMsg}</p>}
 
-          <form className="space-y-3" onSubmit={handleSubmit}>
+          <form className="space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="text-black w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#5C3A2E]"
+              className="text-black w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#5C3A2E]"
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="text-black w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#5C3A2E]"
+              className="text-black w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#5C3A2E]"
             />
             <button
               type="submit"
-              className="w-full bg-[#5C3A2E] text-white py-2 rounded-md text-sm hover:bg-[#4a2f25] transition-colors"
+              className="w-full bg-[#5C3A2E] text-white py-2 rounded-md text-sm sm:text-base hover:bg-[#4a2f25] transition-colors"
             >
               Sign In
             </button>
           </form>
 
-          <p className="text-sm text-center text-gray-500 mt-4">
+          <p className="text-xs sm:text-sm text-center text-gray-500 mt-4 sm:mt-6">
             Don't have an account?{" "}
             <Link href="/signup" className="text-[#5C3A2E] hover:underline">
               Sign Up
@@ -115,11 +114,14 @@ export default function SignInPage() {
           </p>
         </div>
 
-        <div className="w-1/4 hidden md:block">
-          <img
-            src="/images/Slider.png"
+        <div className="w-full max-w-xs sm:max-w-sm md:w-1/3">
+          <Image
+            src="/images/mesinkopi.jpg"
             alt="Cafe"
-            className="w-full h-auto object-cover rounded-2xl shadow-md"
+            width={300}
+            height={300}
+            className="w-full h-auto object-cover rounded-2xl shadow-md max-sm:hidden"
+            priority
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { FaUser, FaEnvelope, FaPhone, FaLock } from "react-icons/fa";
 import NavbarProfile from "../components/NavbarProfile";
 import Footer2 from "../components/footer2";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -61,102 +62,102 @@ export default function ProfilePage() {
 
   const handleEdit = () => setIsEditing(true);
 
-const handleSave = async () => {
-  if (!userId) {
-    alert("User ID tidak ditemukan.");
-    return;
-  }
-
-  let uploadedImageUrl = formData.foto;
-
-  // Upload foto jika ada file baru dipilih
-  if (selectedFile) {
-    const formDataImage = new FormData();
-    formDataImage.append("id_costumer", userId); // ✅ Kirim id ke backend
-    formDataImage.append("foto", selectedFile);
-
-    try {
-      const resUpload = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upload-foto-profile`, {
-        method: "POST",
-        body: formDataImage,
-      });
-
-      if (!resUpload.ok) throw new Error("Upload foto gagal");
-
-      const contentType = resUpload.headers.get("content-type");
-
-      if (contentType && contentType.includes("application/json")) {
-        const result = await resUpload.json();
-
-        if (result?.url) {
-          uploadedImageUrl = result.url;
-        } else {
-          throw new Error("Format JSON tidak sesuai ekspektasi: " + JSON.stringify(result));
-        }
-
-      } else {
-        const text = await resUpload.text();
-        const match = text.match(/https?:\/\/[^\s]+/);
-        if (match) {
-          uploadedImageUrl = match[0];
-        } else {
-          throw new Error("URL gambar tidak ditemukan dalam respons: " + text);
-        }
-      }
-    } catch (error) {
-      console.error("Gagal upload foto:", error);
-      alert("Gagal upload foto.");
+  const handleSave = async () => {
+    if (!userId) {
+      alert("User ID tidak ditemukan.");
       return;
     }
-  }
 
-  const payload = {
-    nama_costumer: formData.name,
-    email: formData.email,
-    notelp_costumer: formData.phone,
-    password: formData.password,
-    id_role: formData.id_role,
-    foto_profile: uploadedImageUrl,
-  };
+    let uploadedImageUrl = formData.foto;
 
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/costumer/${userId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    if (selectedFile) {
+      const formDataImage = new FormData();
+      formDataImage.append("id_costumer", userId);
+      formDataImage.append("foto", selectedFile);
 
-    if (res.ok) {
-      alert("Profil berhasil diperbarui!");
-      setFormData((prev) => ({ ...prev, foto_profile: uploadedImageUrl }));
-      setIsEditing(false);
-    } else {
-      const errText = await res.text();
-      console.error("Gagal update:", errText);
-      alert("Gagal menyimpan perubahan: " + errText);
+      try {
+        const resUpload = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/upload-foto-profile`, {
+          method: "POST",
+          body: formDataImage,
+        });
+
+        if (!resUpload.ok) throw new Error("Upload foto gagal");
+
+        const contentType = resUpload.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const result = await resUpload.json();
+
+          if (result?.url) {
+            uploadedImageUrl = result.url;
+          } else {
+            throw new Error("Format JSON tidak sesuai ekspektasi: " + JSON.stringify(result));
+          }
+        } else {
+          const text = await resUpload.text();
+          const match = text.match(/https?:\/\/[^\s]+/);
+          if (match) {
+            uploadedImageUrl = match[0];
+          } else {
+            throw new Error("URL gambar tidak ditemukan dalam respons: " + text);
+          }
+        }
+      } catch (error) {
+        console.error("Gagal upload foto:", error);
+        alert("Gagal upload foto.");
+        return;
+      }
     }
-  } catch (error) {
-    console.error("Error saat update:", error);
-    alert("Terjadi kesalahan saat menyimpan perubahan.");
-  }
-};
 
+    const payload = {
+      nama_costumer: formData.name,
+      email: formData.email,
+      notelp_costumer: formData.phone,
+      password: formData.password,
+      id_role: formData.id_role,
+      foto_profile: uploadedImageUrl,
+    };
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/costumer/${userId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        alert("Profil berhasil diperbarui!");
+        setFormData((prev) => ({ ...prev, foto_profile: uploadedImageUrl }));
+        setIsEditing(false);
+      } else {
+        const errText = await res.text();
+        console.error("Gagal update:", errText);
+        alert("Gagal menyimpan perubahan: " + errText);
+      }
+    } catch (error) {
+      console.error("Error saat update:", error);
+      alert("Terjadi kesalahan saat menyimpan perubahan.");
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <NavbarProfile />
 
-      <main className="flex-grow max-w-4xl mx-auto px-4 py-10 w-full pt-25">
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+      <main className="flex-grow max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10 w-full overflow-hidden">
+        <div className="flex flex-col md:flex-row items-center md:items-start gap-4 sm:gap-6 md:gap-8">
           <div className="flex-shrink-0 relative flex flex-col items-center">
-            <img
+            <Image
               src={imagePreview || "/images/img_rectangle_9.png"}
               alt="Profile"
-              className="w-40 h-40 rounded-full object-cover bg-gray-200"
+              width={128}
+              height={128}
+              className="w-32 sm:w-36 md:w-40 h-32 sm:h-36 md:h-40 rounded-full object-cover bg-gray-200"
+              priority
             />
             {isEditing && (
-              <div className="mt-3 text-center">
-                <label className="cursor-pointer inline-block bg-[#5C3A2E] text-white text-sm px-4 py-2 rounded-full hover:bg-[#4a2f25] transition">
+              <div className="mt-2 sm:mt-3 text-center">
+                <label className="cursor-pointer inline-block bg-[#5C3A2E] text-white text-sm sm:text-base px-4 sm:px-6 py-1.5 sm:py-2 rounded-full hover:bg-[#4a2f25] transition">
                   Pilih Foto
                   <input
                     type="file"
@@ -165,72 +166,72 @@ const handleSave = async () => {
                     className="hidden"
                   />
                 </label>
-                <p className="text-xs text-gray-500 mt-1">Ukuran maksimal: 2MB</p>
+                <p className="text-xs sm:text-sm text-gray-500 mt-1">Ukuran maksimal: 2MB</p>
               </div>
             )}
           </div>
 
-          <div className="w-full space-y-4">
+          <div className="w-full space-y-3 sm:space-y-4">
             <div className="relative">
-              <FaUser className="absolute left-3 top-3.5 text-[#5C3A2E]" />
+              <FaUser className="absolute left-2 sm:left-3 top-2.5 sm:top-3 text-[#5C3A2E]" />
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 disabled={!isEditing}
-                className="pl-10 w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
+                className="pl-8 sm:pl-10 w-full border border-gray-300 rounded-md px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base md:text-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
               />
             </div>
 
             <div className="relative">
-              <FaEnvelope className="absolute left-3 top-3.5 text-[#5C3A2E]" />
+              <FaEnvelope className="absolute left-2 sm:left-3 top-2.5 sm:top-3 text-[#5C3A2E]" />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 disabled={!isEditing}
-                className="pl-10 w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
+                className="pl-8 sm:pl-10 w-full border border-gray-300 rounded-md px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base md:text-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
               />
             </div>
 
             <div className="relative">
-              <FaPhone className="absolute left-3 top-3.5 text-[#5C3A2E]" />
+              <FaPhone className="absolute left-2 sm:left-3 top-2.5 sm:top-3 text-[#5C3A2E]" />
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
                 disabled={!isEditing}
-                className="pl-10 w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
+                className="pl-8 sm:pl-10 w-full border border-gray-300 rounded-md px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base md:text-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
               />
             </div>
 
             <div className="relative">
-              <FaLock className="absolute left-3 top-3.5 text-[#5C3A2E]" />
+              <FaLock className="absolute left-2 sm:left-3 top-2.5 sm:top-3 text-[#5C3A2E]" />
               <input
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 disabled={!isEditing}
-                className="pl-10 w-full border border-gray-300 rounded-md px-4 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
+                className="pl-8 sm:pl-10 w-full border border-gray-300 rounded-md px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base md:text-lg text-black focus:outline-none focus:ring-2 focus:ring-[#5C3A2E] disabled:bg-gray-100"
               />
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-3 sm:gap-4 pt-4">
               {!isEditing ? (
                 <button
                   onClick={handleEdit}
-                  className="border border-[#5C3A2E] text-[#5C3A2E] px-6 py-2 rounded-full hover:bg-[#5C3A2E] hover:text-white transition"
+                  className="border border-[#5C3A2E] text-[#5C3A2E] px-4 sm:px-6 py-1.5 sm:py-2 rounded-full hover:bg-[#5C3A2E] hover:text-white transition text-center"
                 >
                   Edit Profile
                 </button>
               ) : (
                 <button
                   onClick={handleSave}
-                  className="bg-[#5C3A2E] text-white px-6 py-2 rounded-full hover:bg-[#4a2f25] transition"
+                  className="bg-[#5C3A2E] text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full hover:bg-[#4a2f25] transition text-center"
                 >
                   Save
                 </button>

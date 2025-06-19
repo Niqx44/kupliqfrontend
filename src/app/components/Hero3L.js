@@ -1,11 +1,11 @@
-import CardGroup from './CardGroup';
+import CardGroupL from './CardGroupL';
 
-const Hero3 = () => {
+const Hero3L = () => {
   return (
     <section className="flex justify-center items-center text-center w-full py-2">
-      <CardGroup />
+      <CardGroupL />
     </section>
   );
 };
 
-export default Hero3;
+export default Hero3L;

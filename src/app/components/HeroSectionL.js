@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Button from './Button';
 
-const HeroSection = () => {
+const HeroSectionL = () => {
   return (
     <section className="w-full h-auto bg-[url('/images/bg1.png')] bg-cover bg-center py-12 sm:py-16 md:py-20">
       <div className="container mx-auto px-4 sm:px-6 md:px-8 flex flex-col-reverse md:flex-row items-center gap-6 md:gap-10">
@@ -20,7 +20,7 @@ const HeroSection = () => {
             We are giving you a one-time opportunity to experience a better life with coffee.
           </p>
           <div className="mt-4 sm:mt-6 md:mt-8">
-            <Button className="mt-4 sm:mt-6" label="Order Now" navigateTo="/signin" />
+            <Button className="mt-4 sm:mt-6" label="Order Now" navigateTo="/menu" />
           </div>
         </div>
 
@@ -40,4 +40,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default HeroSectionL;

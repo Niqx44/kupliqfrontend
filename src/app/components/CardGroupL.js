@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "./Button";
 
-const CardGroup = () => {
+const CardGroupL = () => {
   const [menus, setMenus] = useState([]);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const CardGroup = () => {
             >
               Rp {menu.harga_menu.toLocaleString("id-ID")}
             </p>
-            <Button className="mt-3" label="Order Now" navigateTo="/signin" />
+            <Button className="mt-3" label="Order Now" navigateTo="/menu" />
           </div>
         ))}
       </div>
@@ -74,4 +74,4 @@ const CardGroup = () => {
   );
 };
 
-export default CardGroup;
+export default CardGroupL;

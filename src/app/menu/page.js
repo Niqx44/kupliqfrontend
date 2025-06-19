@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import NavbarMenu from "../components/NavbarMenu";
@@ -9,7 +9,7 @@ export default function MenuPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <NavbarMenu
         onCategoryChange={setCategory}
         onSearch={setSearchQuery}

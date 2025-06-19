@@ -52,82 +52,81 @@ export default function ReservationPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="flex flex-col bg-white min-h-screen overflow-y-hidden">
       <NavbarReserve />
 
-      <div className="flex-1 relative">
+      <div className="relative flex items-center justify-center h-[calc(100vh-64px-40px)] sm:h-[calc(90vh-72px-40px)] overflow-hidden">
         <Image
           src="/images/reservebg.png"
           alt="Background"
           fill
           className="object-cover z-0"
+          sizes="90vw"
         />
 
-        <div className="absolute inset-0 z-10 flex items-center justify-center">
-          <div className="flex flex-col md:flex-row w-full h-full">
-            <div className="w-full md:w-1/2 flex items-center justify-center">
-              <Image
-                src="/images/reserveimg.png"
-                alt="Cup Image"
-                width={400}
-                height={400}
-                className="object-contain"
-              />
-            </div>
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-center w-full max-w-screen-xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="w-full md:w-1/2 flex items-center justify-center order-1 md:order-none">
+            <Image
+              src="/images/reserveimg.png"
+              alt="Cup Image"
+              width={400}
+              height={400}
+              className="object-contain w-[250px] h-[250px] md:w-[400px] md:h-[400px]"
+            />
+          </div>
 
-            <div
-              className="w-full md:w-auto pl-25 py-10 flex flex-col justify-center space-y-4 text-white"
-              style={{ fontFamily: 'Abhaya Libre' }}
-            >
-              {isSubmitted ? (
-                <div className="text-left">
-                  <h2 className="text-5xl font-extrabold mb-2">
-                    Thanks For Your Reservation
-                  </h2>
-                  <p className="text-[#d2bda8]">
-                    Check “My Reservation” to see confirmation status
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-2 gap-4">
-                    <InputField
-                      icon="📅"
-                      placeholder="Date"
-                      type="date"
-                      value={formData.date}
-                      onChange={(e) => handleChange('date', e.target.value)}
-                    />
-                    <InputField
-                      icon="⏰"
-                      placeholder="Time"
-                      type="time"
-                      value={formData.time}
-                      onChange={(e) => handleChange('time', e.target.value)}
-                    />
-                  </div>
-
+          <div
+            className="w-full md:w-auto px-4 md:pl-25 py-6 md:py-10 flex flex-col justify-center space-y-4 text-white order-2 md:order-none"
+            style={{ fontFamily: 'Abhaya Libre' }}
+          >
+            {isSubmitted ? (
+              <div className="text-left">
+                <h2 className="text-3xl md:text-5xl font-extrabold mb-2">
+                  Thanks For Your Reservation
+                </h2>
+                <p className="text-[#d2bda8] text-sm md:text-base">
+                  Check “My Reservation” to see confirmation status
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <InputField
-                    icon="📝"
-                    placeholder="Notes / Keterangan"
-                    value={formData.notes}
-                    onChange={(e) => handleChange('notes', e.target.value)}
+                    icon="📅"
+                    placeholder="Date"
+                    type="date"
+                    value={formData.date}
+                    onChange={(e) => handleChange('date', e.target.value)}
                   />
+                  <InputField
+                    icon="⏰"
+                    placeholder="Time"
+                    type="time"
+                    value={formData.time}
+                    onChange={(e) => handleChange('time', e.target.value)}
+                  />
+                </div>
 
-                  <button
-                    onClick={handleSubmit}
-                    className="mt-6 py-3 px-6 border bg-[#624c3d] border-[#785d4b] text-white rounded-full hover:bg-white hover:text-[#5b2e14] transition font-semibold"
-                  >
-                    Reserve
-                  </button>
-                </>
-              )}
-            </div>
+                <InputField
+                  icon="📝"
+                  placeholder="Notes / Keterangan"
+                  value={formData.notes}
+                  onChange={(e) => handleChange('notes', e.target.value)}
+                />
+
+                <button
+                  onClick={handleSubmit}
+                  className="mt-6 py-3 px-6 border bg-[#624c3d] border-[#785d4b] text-white rounded-full hover:bg-white hover:text-[#5b2e14] transition font-semibold"
+                >
+                  Reserve
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
 
-      <footer className="text-center text-[#5b2e14] py-10 font-semibold">
+      <footer className="text-center text-[#5b2e14] py-8 font-semibold">
         #TETAPDIKUPLIQ
       </footer>
     </div>

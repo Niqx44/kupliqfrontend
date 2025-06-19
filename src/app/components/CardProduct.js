@@ -39,7 +39,6 @@ const CardProduct = ({ selectedCategory, searchQuery }) => {
     alert(`${menu.nama_menu} ditambahkan ke keranjang`);
   };
 
-  //FILTER MENU BERDASARKAN KATEGORI & SEARCH
   const filteredMenus = menus.filter((menu) => {
     const matchCategory = selectedCategory === "All" || menu.kategori === selectedCategory;
     const matchSearch = menu.nama_menu.toLowerCase().includes(searchQuery.toLowerCase());
@@ -47,32 +46,32 @@ const CardProduct = ({ selectedCategory, searchQuery }) => {
   });
 
   return (
-    <div className="flex justify-center items-center mt-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 px-4 py-8 max-w-screen-xl mx-auto">
+    <div className="flex justify-center items-start mt-4 sm:mt-6 md:mt-8 py-6 sm:py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-12 px-4 sm:px-6 md:px-8 max-w-screen-xl mx-auto">
         {filteredMenus.map((menu) => (
           <div
             key={menu.id_menu}
-            className="w-full max-w-xs h-[360px] p-4 border rounded-xl shadow-md hover:shadow-lg transition bg-[#F4F4F4] flex flex-col justify-between"
+            className="w-full max-w-[280px] h-[340px] sm:h-[360px] p-4 border rounded-xl shadow-md hover:shadow-lg transition bg-[#F4F4F4] flex flex-col justify-between mx-auto"
           >
             <div className="flex justify-center items-center">
               <img
                 src={menu.foto_menu || "/images/—Pngtree—coffee cup ceramic coffee transparent_9057114.png"}
                 alt={menu.nama_menu}
-                className="w-48 h-48 mt-6"
+                className="w-[120px] h-[120px] sm:w-[160px] sm:h-[160px] md:w-[180px] md:h-[180px] mt-4 sm:mt-6 object-cover"
               />
             </div>
-            <div className="mt-2 pl-4">
-              <h2 className="text-xl font-semibold text-[#775142] mb-6">
+            <div className="mt-2 pl-2 sm:pl-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#775142] mb-4 sm:mb-6">
                 {menu.nama_menu}
               </h2>
-              <div className="flex flex-wrap items-center justify-between mb-6">
-                <p className="text-lg font-normal text-[#775142]">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <p className="text-base sm:text-lg font-normal text-[#775142]">
                   Rp {menu.harga_menu.toLocaleString("id-ID")}
                 </p>
                 <img
                   src="/buy.svg"
-                  alt="Buy Icon"
-                  className="h-8 w-8 cursor-pointer"
+                  alt="Add to Cart"
+                  className="h-6 w-6 sm:h-8 sm:w-8 cursor-pointer"
                   onClick={() => handleAddToCart(menu)}
                 />
               </div>
@@ -80,7 +79,7 @@ const CardProduct = ({ selectedCategory, searchQuery }) => {
           </div>
         ))}
         {filteredMenus.length === 0 && (
-          <p className="text-[#775142] text-lg col-span-full text-center">
+          <p className="text-[#775142] text-base sm:text-lg md:text-xl col-span-full text-center">
             Tidak ada menu ditemukan.
           </p>
         )}
